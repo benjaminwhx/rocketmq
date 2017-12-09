@@ -23,46 +23,29 @@ import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 
 /**
- * This class demonstrates how to send messages to brokers using provided {@link DefaultMQProducer}.
+ * 使用DefaultMQProducer发送同步消息
  */
 public class Producer {
     public static void main(String[] args) throws MQClientException, InterruptedException {
 
         /*
-         * Instantiate with a producer group name.
+         * 通过组名初始化Producer
          */
-        DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
+        DefaultMQProducer producer = new DefaultMQProducer("group1");
 
-        /*
-         * Specify name server addresses.
-         * <p/>
-         *
-         * Alternatively, you may specify name server addresses via exporting environmental variable: NAMESRV_ADDR
-         * <pre>
-         * {@code
-         * producer.setNamesrvAddr("name-server1-ip:9876;name-server2-ip:9876");
-         * }
-         * </pre>
-         */
+        producer.setNamesrvAddr("localhost:9876");
+//        producer.setNamesrvAddr("name-server1-ip:9876;name-server2-ip:9876");
 
-        /*
-         * Launch the instance.
-         */
         producer.start();
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10; i++) {
             try {
-
-                /*
-                 * Create a message instance, specifying topic, tag and message body.
-                 */
-                Message msg = new Message("TopicTest" /* Topic */,
-                    "TagA" /* Tag */,
-                    ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+                Message msg = new Message("TopicProducer", "TagA",
+                    ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
                 );
 
                 /*
-                 * Call send message to deliver message to one of brokers.
+                 * 发送消息给其中一个broker
                  */
                 SendResult sendResult = producer.send(msg);
 
@@ -74,7 +57,7 @@ public class Producer {
         }
 
         /*
-         * Shut down once the producer instance is not longer in use.
+         * producer不再使用后调用shutdown关闭它
          */
         producer.shutdown();
     }

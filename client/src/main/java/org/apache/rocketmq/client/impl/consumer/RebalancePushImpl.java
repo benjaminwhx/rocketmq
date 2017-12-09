@@ -172,6 +172,7 @@ public class RebalancePushImpl extends RebalanceImpl {
                 if (lastOffset >= 0) {
                     result = lastOffset;
                 } else if (-1 == lastOffset) {
+                    // first offset直接返回0
                     result = 0L;
                 } else {
                     result = -1;
