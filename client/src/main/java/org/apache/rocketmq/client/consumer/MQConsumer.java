@@ -42,10 +42,10 @@ public interface MQConsumer extends MQAdmin {
         throws RemotingException, MQBrokerException, InterruptedException, MQClientException;
 
     /**
-     * Fetch message queues from consumer cache according to the topic
+     * 根据相关的topic从消费缓存里获取消费队列
      *
-     * @param topic message topic
-     * @return queue set
+     * @param topic 消息topic
+     * @return 队列集合
      */
     Set<MessageQueue> fetchSubscribeMessageQueues(final String topic) throws MQClientException;
 }

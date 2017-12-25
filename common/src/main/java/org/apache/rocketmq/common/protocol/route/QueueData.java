@@ -24,6 +24,9 @@ public class QueueData implements Comparable<QueueData> {
     private String brokerName;
     private int readQueueNums;
     private int writeQueueNums;
+    /**
+     * rwx权限的int值
+     */
     private int perm;
     private int topicSynFlag;
 

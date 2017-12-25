@@ -49,6 +49,12 @@ public class Consumer {
          */
         consumer.registerMessageListener(new MessageListenerConcurrently() {
 
+            /**
+             * 默认msgs里只有一条消息，可以通过设置consumeMessageBatchMaxSize参数来批量接收消息
+             * @param msgs msgs.size() >= 1 默认消息数为1
+             * @param context
+             * @return
+             */
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,
                 ConsumeConcurrentlyContext context) {

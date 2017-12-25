@@ -34,6 +34,9 @@ public class MessageExt extends Message {
     private long bornTimestamp;
     private SocketAddress bornHost;
 
+    /**
+     * 储存（持久化）时的时间
+     */
     private long storeTimestamp;
     private SocketAddress storeHost;
     private String msgId;

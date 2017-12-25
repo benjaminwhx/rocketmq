@@ -44,6 +44,11 @@ public interface MQConsumerInner {
 
     void updateTopicSubscribeInfo(final String topic, final Set<MessageQueue> info);
 
+    /**
+     * 订阅主题是否需要更新
+     * @param topic 主题
+     * @return
+     */
     boolean isSubscribeTopicNeedUpdate(final String topic);
 
     boolean isUnitMode();

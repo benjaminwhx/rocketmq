@@ -88,9 +88,9 @@ public class Configuration {
     }
 
     /**
-     * register config properties
+     * 注册配置属性到当前类
      *
-     * @return the current Configuration object
+     * @return 当前配置对象
      */
     public Configuration registerConfig(Properties extProperties) {
         if (extProperties == null) {

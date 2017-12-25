@@ -28,8 +28,17 @@ public class SubscriptionData implements Comparable<SubscriptionData> {
     public final static String SUB_ALL = "*";
     private boolean classFilterMode = false;
     private String topic;
+    /**
+     * 订阅的过滤字符串 tagA | tagB | tagC
+     */
     private String subString;
+    /**
+     * subString按|拆分后的tag的set
+     */
     private Set<String> tagsSet = new HashSet<String>();
+    /**
+     * subString按|拆分后的tag的hashCode的set
+     */
     private Set<Integer> codeSet = new HashSet<Integer>();
     private long subVersion = System.currentTimeMillis();
     private String expressionType;

@@ -539,11 +539,12 @@ public class DefaultMQPushConsumer extends ClientConfig implements MQPushConsume
     }
 
     /**
-     * Subscribe a topic to consuming subscription.
      *
-     * @param topic topic to consume.
-     * @param fullClassName full class name,must extend org.apache.rocketmq.common.filter. MessageFilter
-     * @param filterClassSource class source code,used UTF-8 file encoding,must be responsible for your code safety
+     * 订阅一个topic去消费
+     *
+     * @param topic 用来消费的主题
+     * @param fullClassName 全路径类名,必须继承 {@link org.apache.rocketmq.common.filter.MessageFilter}
+     * @param filterClassSource 类的源码，必须使用UTF-8进行编码，必须对代码安全负责（不要在类里写死循环这种）
      */
     @Override
     public void subscribe(String topic, String fullClassName, String filterClassSource) throws MQClientException {
@@ -551,9 +552,9 @@ public class DefaultMQPushConsumer extends ClientConfig implements MQPushConsume
     }
 
     /**
-     * Subscribe a topic by message selector.
+     * 通过消息选择器订阅一个主题
      *
-     * @param topic topic to consume.
+     * @param topic 用来消费的主题
      * @param messageSelector {@link org.apache.rocketmq.client.consumer.MessageSelector}
      * @see org.apache.rocketmq.client.consumer.MessageSelector#bySql
      * @see org.apache.rocketmq.client.consumer.MessageSelector#byTag

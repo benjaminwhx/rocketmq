@@ -41,13 +41,22 @@ import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
 import org.slf4j.Logger;
 
 /**
- * Base class for rebalance algorithm
+ * 负载均衡算法基类
  */
 public abstract class RebalanceImpl {
     protected static final Logger log = ClientLogger.getLog();
+    /**
+     *  用于描述：经过负载均衡处理后，分配给当前Consumer的Queue，以及Queue对应的本地消息缓存。（Consumer从Broker批量获取消息后，会先缓存在本地的ProcessQueue对象中，消费线程从ProcessQueue中消费消息。）
+     */
     protected final ConcurrentMap<MessageQueue, ProcessQueue> processQueueTable = new ConcurrentHashMap<MessageQueue, ProcessQueue>(64);
+    /**
+     *  用于描述：当前Consumer订阅的各个Topic分布在哪些Broker上，每个Broker上有多少个Queue。进行负载均衡处理时，这些Queue会按照负载均衡策略分配给ConsumerGroup内的各Consumer。
+     */
     protected final ConcurrentMap<String/* topic */, Set<MessageQueue>> topicSubscribeInfoTable =
         new ConcurrentHashMap<String, Set<MessageQueue>>();
+    /**
+     * 用于描述：当前Consumer订阅的各Topic的消息过滤条件（TAG）。
+     */
     protected final ConcurrentMap<String /* topic */, SubscriptionData> subscriptionInner =
         new ConcurrentHashMap<String, SubscriptionData>();
     protected String consumerGroup;

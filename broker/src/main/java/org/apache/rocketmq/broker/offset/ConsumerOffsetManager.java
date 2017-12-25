@@ -156,6 +156,10 @@ public class ConsumerOffsetManager extends ConfigManager {
         return this.encode(false);
     }
 
+    /**
+     * ~/store/config/consumerOffset.json
+     * @return
+     */
     @Override
     public String configFilePath() {
         return BrokerPathConfigHelper.getConsumerOffsetPath(this.brokerController.getMessageStoreConfig().getStorePathRootDir());

@@ -204,6 +204,7 @@ public class BrokerController {
         result = result && this.subscriptionGroupManager.load();
         result = result && this.consumerFilterManager.load();
 
+        // 加载配置文件全部成功
         if (result) {
             try {
                 this.messageStore =
@@ -338,6 +339,9 @@ public class BrokerController {
                 }
             }, 1000 * 10, 1000 * 60, TimeUnit.MILLISECONDS);
 
+            /**
+             * 获取namesrv的地址并更新
+             */
             if (this.brokerConfig.getNamesrvAddr() != null) {
                 this.brokerOuterAPI.updateNameServerAddressList(this.brokerConfig.getNamesrvAddr());
                 log.info("Set user specified name server address: {}", this.brokerConfig.getNamesrvAddr());
@@ -363,6 +367,10 @@ public class BrokerController {
                     this.updateMasterHAServerAddrPeriodically = true;
                 }
 
+                /**
+                 * 每个SlaveBroker与对应的MasterBroker建立长连接
+                 * SlaveBroker每隔60秒会同步一次MasterBroker的数据到本地缓存
+                 */
                 this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
                     @Override
@@ -680,6 +688,10 @@ public class BrokerController {
 
         this.registerBrokerAll(true, false);
 
+        /**
+         * 每个Broker与NameServer集群中的所有节点建立长连接
+         * 每隔30秒发送一个心跳消息（REGISTER_BROKER）给每个NameServer，上报Broker信息。
+         */
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
             @Override
@@ -701,6 +713,11 @@ public class BrokerController {
         }
     }
 
+    /**
+     * 注册所有broker
+     * @param checkOrderConfig
+     * @param oneway
+     */
     public synchronized void registerBrokerAll(final boolean checkOrderConfig, boolean oneway) {
         TopicConfigSerializeWrapper topicConfigWrapper = this.getTopicConfigManager().buildTopicConfigSerializeWrapper();
 

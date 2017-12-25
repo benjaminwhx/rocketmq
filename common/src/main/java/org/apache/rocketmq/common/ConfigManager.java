@@ -26,6 +26,10 @@ public abstract class ConfigManager {
 
     public abstract String encode();
 
+    /**
+     * 加载文件，加载失败继续加载bak文件
+     * @return
+     */
     public boolean load() {
         String fileName = null;
         try {
@@ -45,8 +49,16 @@ public abstract class ConfigManager {
         }
     }
 
+    /**
+     * 获取配置文件的路径
+     * @return
+     */
     public abstract String configFilePath();
 
+    /**
+     * 加载bak文件
+     * @return
+     */
     private boolean loadBak() {
         String fileName = null;
         try {
@@ -65,8 +77,15 @@ public abstract class ConfigManager {
         return true;
     }
 
+    /**
+     * 解析json
+     * @param jsonString
+     */
     public abstract void decode(final String jsonString);
 
+    /**
+     * 持久化json到文件
+     */
     public synchronized void persist() {
         String jsonString = this.encode(true);
         if (jsonString != null) {
@@ -79,5 +98,10 @@ public abstract class ConfigManager {
         }
     }
 
+    /**
+     * 输出json
+     * @param prettyFormat
+     * @return
+     */
     public abstract String encode(final boolean prettyFormat);
 }

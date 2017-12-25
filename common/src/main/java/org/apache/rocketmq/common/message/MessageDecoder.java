@@ -39,7 +39,13 @@ public class MessageDecoder {
     public final static int MESSAGE_PHYSIC_OFFSET_POSTION = 28;
     public final static int MESSAGE_STORE_TIMESTAMP_POSTION = 56;
     public final static int MESSAGE_MAGIC_CODE = 0xAABBCCDD ^ 1880681586 + 8;
+    /**
+     * ''
+     */
     public static final char NAME_VALUE_SEPARATOR = 1;
+    /**
+     * ' '
+     */
     public static final char PROPERTY_SEPARATOR = 2;
     public static final int BODY_SIZE_POSITION = 4 // 1 TOTALSIZE
         + 4 // 2 MAGICCODE
@@ -380,6 +386,11 @@ public class MessageDecoder {
         return msgExts;
     }
 
+    /**
+     * 消息的properties转换成String 类似于：keyvalue keyvalue
+     * @param properties
+     * @return
+     */
     public static String messageProperties2String(Map<String, String> properties) {
         StringBuilder sb = new StringBuilder();
         if (properties != null) {

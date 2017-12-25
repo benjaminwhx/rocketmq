@@ -47,7 +47,10 @@ public class Validators {
     }
 
     /**
-     * Validate group
+     * 校验组名
+     * 1：不能为空
+     * 2：要符合^[%|a-zA-Z0-9_-]+$ 这种正则标准
+     * 3：长度不能大于255
      */
     public static void checkGroup(String group) throws MQClientException {
         if (UtilAll.isBlank(group)) {
@@ -75,7 +78,11 @@ public class Validators {
     }
 
     /**
-     * Validate message
+     * 校验消息
+     * 1、消息不能为空
+     * 2、主题名要规范
+     * 3、消息体不能为空
+     * 4、消息体的长度要 <=  1024 * 1024 * 4
      */
     public static void checkMessage(Message msg, DefaultMQProducer defaultMQProducer)
         throws MQClientException {
@@ -101,7 +108,11 @@ public class Validators {
     }
 
     /**
-     * Validate topic
+     * 校验主题名
+     * 1：不能为空
+     * 2：要符合^[%|a-zA-Z0-9_-]+$ 这种正则标准
+     * 3：长度不能大于255
+     * 4：不能等于TBW102
      */
     public static void checkTopic(String topic) throws MQClientException {
         if (UtilAll.isBlank(topic)) {

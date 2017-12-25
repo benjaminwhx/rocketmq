@@ -22,20 +22,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 
 /**
- * {@link ShutdownHookThread} is the standard hook for filtersrv and namesrv modules.
- * Through {@link Callable} interface, this hook can customization operations in anywhere.
+ * {@link ShutdownHookThread}是一个标准的钩子类，提供给filtersrv和namesrv模块去使用
+ * 通过{@link Callable}接口，钩子可以在任何地方自定义操作
  */
 public class ShutdownHookThread extends Thread {
+    // 有没有关闭
     private volatile boolean hasShutdown = false;
+    // 关闭次数
     private AtomicInteger shutdownTimes = new AtomicInteger(0);
     private final Logger log;
     private final Callable callback;
 
     /**
-     * Create the standard hook thread, with a call back, by using {@link Callable} interface.
+     * 使用Callable回调创建实例
      *
-     * @param log The log instance is used in hook thread.
-     * @param callback The call back function.
+     * @param log slf4j实例
+     * @param callback callback回调
      */
     public ShutdownHookThread(Logger log, Callable callback) {
         super("ShutdownHook");
@@ -44,10 +46,9 @@ public class ShutdownHookThread extends Thread {
     }
 
     /**
-     * Thread run method.
-     * Invoke when the jvm shutdown.
-     * 1. count the invocation times.
-     * 2. execute the {@link ShutdownHookThread#callback}, and time it.
+     * 当jvm关闭时被调用
+     * 1. 统计调用次数
+     * 2. 执行 {@link ShutdownHookThread#callback} 并统计执行时间
      */
     @Override
     public void run() {

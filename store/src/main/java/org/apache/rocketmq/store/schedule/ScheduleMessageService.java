@@ -147,6 +147,10 @@ public class ScheduleMessageService extends ConfigManager {
         return result;
     }
 
+    /**
+     * ~/store/config/delayOffset.json
+     * @return
+     */
     @Override
     public String configFilePath() {
         return StorePathConfigHelper.getDelayOffsetStorePath(this.defaultMessageStore.getMessageStoreConfig()
@@ -170,6 +174,10 @@ public class ScheduleMessageService extends ConfigManager {
         return delayOffsetSerializeWrapper.toJson(prettyFormat);
     }
 
+    /**
+     * 解析延迟级别
+     * @return
+     */
     public boolean parseDelayLevel() {
         HashMap<String, Long> timeUnitTable = new HashMap<String, Long>();
         timeUnitTable.put("s", 1000L);

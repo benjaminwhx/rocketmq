@@ -34,6 +34,9 @@ import org.slf4j.LoggerFactory;
 public class SubscriptionGroupManager extends ConfigManager {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
 
+    /**
+     * 用于描述：各ConsumerGroup的消费行为特点，例如：消费失败后的最大重试次数；重试队列个数；如果从MasterBroker消费缓慢，切换到哪个Slave Broker进行消费。
+     */
     private final ConcurrentMap<String, SubscriptionGroupConfig> subscriptionGroupTable =
         new ConcurrentHashMap<String, SubscriptionGroupConfig>(1024);
     private final DataVersion dataVersion = new DataVersion();
@@ -140,6 +143,10 @@ public class SubscriptionGroupManager extends ConfigManager {
         return this.encode(false);
     }
 
+    /**
+     * ~/store/config/subscriptionGroup.json
+     * @return
+     */
     @Override
     public String configFilePath() {
         return BrokerPathConfigHelper.getSubscriptionGroupPath(this.brokerController.getMessageStoreConfig()

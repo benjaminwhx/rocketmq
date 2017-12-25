@@ -35,6 +35,9 @@ import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Namesrc的控制类，记录配置信息并启动服务
+ */
 public class NamesrvController {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.NAMESRV_LOGGER_NAME);
 
@@ -79,6 +82,7 @@ public class NamesrvController {
 
         this.registerProcessor();
 
+        // 5秒后每10秒一次，扫描不活跃的broker
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
             @Override
@@ -98,6 +102,9 @@ public class NamesrvController {
         return true;
     }
 
+    /**
+     * 注册处理器
+     */
     private void registerProcessor() {
         if (namesrvConfig.isClusterTest()) {
 

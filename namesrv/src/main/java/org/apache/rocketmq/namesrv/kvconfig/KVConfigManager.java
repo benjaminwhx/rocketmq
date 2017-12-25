@@ -132,6 +132,11 @@ public class KVConfigManager {
         this.persist();
     }
 
+    /**
+     * 通过namespace获取配置信息，转成json再到byte[]
+     * @param namespace
+     * @return
+     */
     public byte[] getKVListByNamespace(final String namespace) {
         try {
             this.lock.readLock().lockInterruptibly();
@@ -152,6 +157,12 @@ public class KVConfigManager {
         return null;
     }
 
+    /**
+     * 通过namespace和key获取value
+     * @param namespace
+     * @param key
+     * @return
+     */
     public String getKVConfig(final String namespace, final String key) {
         try {
             this.lock.readLock().lockInterruptibly();
@@ -170,6 +181,9 @@ public class KVConfigManager {
         return null;
     }
 
+    /**
+     * 打印所有配置信息
+     */
     public void printAllPeriodically() {
         try {
             this.lock.readLock().lockInterruptibly();

@@ -36,6 +36,9 @@ import org.slf4j.LoggerFactory;
 public class ConsumerManager {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
     private static final long CHANNEL_EXPIRED_TIMEOUT = 1000 * 120;
+    /**
+     * 用于描述：每个ConsumerGroup中分别有哪些存活的Consumer连接，分别订阅了哪些Topic，订阅的每个Topic使用什么过滤条件（TAG）。
+     */
     private final ConcurrentMap<String/* Group */, ConsumerGroupInfo> consumerTable =
         new ConcurrentHashMap<String, ConsumerGroupInfo>(1024);
     private final ConsumerIdsChangeListener consumerIdsChangeListener;

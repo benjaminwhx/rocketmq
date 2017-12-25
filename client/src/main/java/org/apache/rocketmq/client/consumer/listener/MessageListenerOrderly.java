@@ -20,15 +20,14 @@ import java.util.List;
 import org.apache.rocketmq.common.message.MessageExt;
 
 /**
- * A MessageListenerOrderly object is used to receive asynchronously delivered messages orderly.one queue,one
- * thread
+ * 同一队列的消息同一时刻只能一个线程消费，可保证消息在同一队列严格有序消费
  */
 public interface MessageListenerOrderly extends MessageListener {
     /**
      * 不推荐抛出异常，如果消费失败，推荐返回 ConsumeOrderlyStatus.SUSPEND_CURRENT_QUEUE_A_MOMENT
      *
-     * @param msgs msgs.size() >= 1<br> DefaultMQPushConsumer.consumeMessageBatchMaxSize=1,you can modify here
-     * @return The consume status
+     * @param msgs msgs.size() >= 1 默认消息数为1
+     * @return 消费状态
      */
     ConsumeOrderlyStatus consumeMessage(final List<MessageExt> msgs,
         final ConsumeOrderlyContext context);

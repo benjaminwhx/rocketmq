@@ -39,11 +39,16 @@ import org.apache.rocketmq.srvutil.ShutdownHookThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Namesrc启动入口类
+ * mqnamesrc.sh会进行调用
+ */
 public class NamesrvStartup {
     public static Properties properties = null;
     public static CommandLine commandLine = null;
 
     public static void main(String[] args) {
+        System.setProperty("ROCKETMQ_HOME", "/Users/benjamin/jd_project/rocketmq/distribution/target/apache-rocketmq");
         main0(args);
     }
 
@@ -51,17 +56,21 @@ public class NamesrvStartup {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
 
         if (null == System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_SNDBUF_SIZE)) {
+            // 默认设置socket发送缓存大小为4096
             NettySystemConfig.socketSndbufSize = 4096;
         }
 
         if (null == System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_RCVBUF_SIZE)) {
+            // 默认设置socket接收缓存大小为4096
             NettySystemConfig.socketRcvbufSize = 4096;
         }
 
         try {
             //PackageConflictDetect.detectFastjson();
 
+            // 初始化命令-h -n
             Options options = ServerUtil.buildCommandlineOptions(new Options());
+            // 增加命令-c configFile -p printConfigItem
             commandLine = ServerUtil.parseCmdLine("mqnamesrv", args, buildCommandlineOptions(options), new PosixParser());
             if (null == commandLine) {
                 System.exit(-1);
@@ -71,6 +80,7 @@ public class NamesrvStartup {
             final NamesrvConfig namesrvConfig = new NamesrvConfig();
             final NettyServerConfig nettyServerConfig = new NettyServerConfig();
             nettyServerConfig.setListenPort(9876);
+            // -c后面跟文件名，解析到namesrvConfig和nettyServerConfig中去
             if (commandLine.hasOption('c')) {
                 String file = commandLine.getOptionValue('c');
                 if (file != null) {
@@ -87,12 +97,14 @@ public class NamesrvStartup {
                 }
             }
 
+            // -p打印配置的选项 未传log，不会打印
             if (commandLine.hasOption('p')) {
                 MixAll.printObjectProperties(null, namesrvConfig);
                 MixAll.printObjectProperties(null, nettyServerConfig);
                 System.exit(0);
             }
 
+            // 命令行指定配置信息
             MixAll.properties2Object(ServerUtil.commandLine2Properties(commandLine), namesrvConfig);
 
             if (null == namesrvConfig.getRocketmqHome()) {
@@ -112,7 +124,7 @@ public class NamesrvStartup {
 
             final NamesrvController controller = new NamesrvController(namesrvConfig, nettyServerConfig);
 
-            // remember all configs to prevent discard
+            // 注册用户自定义的属性到配置中
             controller.getConfiguration().registerConfig(properties);
 
             boolean initResult = controller.initialize();
@@ -121,6 +133,7 @@ public class NamesrvStartup {
                 System.exit(-3);
             }
 
+            // jvm关闭前会回调shutdown
             Runtime.getRuntime().addShutdownHook(new ShutdownHookThread(log, new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {

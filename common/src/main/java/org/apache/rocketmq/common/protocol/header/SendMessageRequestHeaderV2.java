@@ -23,7 +23,7 @@ import org.apache.rocketmq.remoting.annotation.CFNullable;
 import org.apache.rocketmq.remoting.exception.RemotingCommandException;
 
 /**
- * Use short variable name to speed up FastJson deserialization process.
+ * 使用短变量名来提升fastJson的反序列化的速度
  */
 public class SendMessageRequestHeaderV2 implements CommandCustomHeader {
     @CFNotNull

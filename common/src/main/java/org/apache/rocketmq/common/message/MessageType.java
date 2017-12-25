@@ -21,5 +21,8 @@ public enum MessageType {
     Normal_Msg,
     Trans_Msg_Half,
     Trans_msg_Commit,
+    /**
+     * 延迟消息
+     */
     Delay_Msg,
 }

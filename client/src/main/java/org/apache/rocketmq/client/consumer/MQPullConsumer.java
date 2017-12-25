@@ -24,21 +24,21 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
 /**
- * Pulling consumer interface
+ * 拉取消费接口
  */
 public interface MQPullConsumer extends MQConsumer {
     /**
-     * Start the consumer
+     * 开始消费
      */
     void start() throws MQClientException;
 
     /**
-     * Shutdown the consumer
+     * 关闭消费
      */
     void shutdown();
 
     /**
-     * Register the message queue listener
+     * 注册消息队列监听器
      */
     void registerMessageQueueListener(final String topic, final MessageQueueListener listener);
 

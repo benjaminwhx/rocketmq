@@ -35,6 +35,9 @@ public class ProducerManager {
     private static final long LOCK_TIMEOUT_MILLIS = 3000;
     private static final long CHANNEL_EXPIRED_TIMEOUT = 1000 * 120;
     private final Lock groupChannelLock = new ReentrantLock();
+    /**
+     * 用于描述：各ProducerGroup中分别有哪些存活的Producer连接；每个连接的Producer最后一次发来心跳的时间
+     */
     private final HashMap<String /* group name */, HashMap<Channel, ClientChannelInfo>> groupChannelTable =
         new HashMap<String, HashMap<Channel, ClientChannelInfo>>();
 

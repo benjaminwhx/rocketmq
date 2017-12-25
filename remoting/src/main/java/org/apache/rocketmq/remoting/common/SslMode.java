@@ -17,18 +17,20 @@
 
 package org.apache.rocketmq.remoting.common;
 
-/**
- * For server, three SSL modes are supported: disabled, permissive and enforcing.
- * <ol>
- *     <li><strong>disabled:</strong> SSL is not supported; any incoming SSL handshake will be rejected, causing connection closed.</li>
- *     <li><strong>permissive:</strong> SSL is optional, aka, server in this mode can serve client connections with or without SSL;</li>
- *     <li><strong>enforcing:</strong> SSL is required, aka, non SSL connection will be rejected.</li>
- * </ol>
- */
 public enum SslMode {
 
+    /**
+     * 失效
+     * 不支持SSL，任何传入的SSL握手都将被拒绝，导致连接关闭。
+     */
     DISABLED("disabled"),
+    /**
+     * 许可，SSL是可选的，这种模式说明连接的时候SSL是可选的。
+     */
     PERMISSIVE("permissive"),
+    /**
+     * 强制，SSL是必选的，没有SSL的连接将被拒绝
+     */
     ENFORCING("enforcing");
 
     private String name;

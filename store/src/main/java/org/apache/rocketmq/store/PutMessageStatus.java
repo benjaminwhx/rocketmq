@@ -17,14 +17,44 @@
 package org.apache.rocketmq.store;
 
 public enum PutMessageStatus {
+    /**
+     * 储存成功
+     */
     PUT_OK,
+    /**
+     * flush磁盘超时
+     */
     FLUSH_DISK_TIMEOUT,
+    /**
+     * flush slave超时
+     */
     FLUSH_SLAVE_TIMEOUT,
+    /**
+     * slave不可用
+     */
     SLAVE_NOT_AVAILABLE,
+    /**
+     * 服务不可用
+     */
     SERVICE_NOT_AVAILABLE,
+    /**
+     * 创建映射文件失败
+     */
     CREATE_MAPEDFILE_FAILED,
+    /**
+     * 非法消息
+     */
     MESSAGE_ILLEGAL,
+    /**
+     * properties大小超过最大长度
+     */
     PROPERTIES_SIZE_EXCEEDED,
+    /**
+     * 系统page缓存超时
+     */
     OS_PAGECACHE_BUSY,
+    /**
+     * 未知异常
+     */
     UNKNOWN_ERROR,
 }

@@ -25,18 +25,20 @@ import org.apache.rocketmq.common.message.MessageExtBatch;
 public interface AppendMessageCallback {
 
     /**
-     * After message serialization, write MapedByteBuffer
+     * 消息序列化之后，写MappedByteBuffer
      *
-     * @return How many bytes to write
+     * @param maxBlank 最大可写多少长度
+     *
+     * @return 写了多少字节
      */
     AppendMessageResult doAppend(final long fileFromOffset, final ByteBuffer byteBuffer,
         final int maxBlank, final MessageExtBrokerInner msg);
 
     /**
-     * After batched message serialization, write MapedByteBuffer
+     * 批量消息序列化之后，写MappedByteBuffer
      *
      * @param messageExtBatch, backed up by a byte array
-     * @return How many bytes to write
+     * @return 写了多少字节
      */
     AppendMessageResult doAppend(final long fileFromOffset, final ByteBuffer byteBuffer,
         final int maxBlank, final MessageExtBatch messageExtBatch);

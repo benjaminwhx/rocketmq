@@ -24,8 +24,21 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+/**
+ * 下面是加上-h打印的示例
+ * usage: appName [-h] [-n <arg>]
+ *      -h,--help                Print help
+ *      -n,--namesrvAddr <arg>   Name server address list, eg: 192.168.0.1:9876;192.168.0.2:9876
+ */
 public class ServerUtil {
 
+    /**
+     * 构建命令行选项
+     *      -h 或者 -help
+     *      -n 或者 -namesrvAddr
+     * @param options
+     * @return
+     */
     public static Options buildCommandlineOptions(final Options options) {
         Option opt = new Option("h", "help", false, "Print help");
         opt.setRequired(false);
@@ -40,6 +53,14 @@ public class ServerUtil {
         return options;
     }
 
+    /**
+     * 解析命令行，如果发现存在-h的参数，打印帮助信息
+     * @param appName 应用名
+     * @param args 参数
+     * @param options 构造的选项
+     * @param parser 解析器
+     * @return
+     */
     public static CommandLine parseCmdLine(final String appName, String[] args, Options options,
         CommandLineParser parser) {
         HelpFormatter hf = new HelpFormatter();

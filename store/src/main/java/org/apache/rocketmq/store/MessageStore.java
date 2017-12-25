@@ -23,36 +23,37 @@ import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.message.MessageExtBatch;
 
 /**
- * This class defines contracting interfaces to implement, allowing third-party vendor to use customized message store.
+ * 该类定义了消息存储的接口，允许第三方人员自行实现消息存储
  */
 public interface MessageStore {
 
     /**
-     * Load previously stored messages.
+     * 加载之前存储的消息
      *
-     * @return true if success; false otherwise.
+     * @return 成功返回true，其他false
      */
     boolean load();
 
     /**
-     * Launch this message store.
+     * 开始消息存储
      *
      * @throws Exception if there is any error.
      */
     void start() throws Exception;
 
     /**
-     * Shutdown this message store.
+     * 停止消息存储
      */
     void shutdown();
 
     /**
-     * Destroy this message store. Generally, all persistent files should be removed after invocation.
+     * 销毁消息存储
+     * 通常，所有持久化文件应该在执行后删除
      */
     void destroy();
 
     /**
-     * Store a message into store.
+     * 存储消息
      *
      * @param msg Message instance to store
      * @return result of store operation.
@@ -60,7 +61,7 @@ public interface MessageStore {
     PutMessageResult putMessage(final MessageExtBrokerInner msg);
 
     /**
-     * Store a batch of messages.
+     * 批量存储消息
      *
      * @param messageExtBatch Message batch.
      * @return result of storing batch messages.
@@ -250,7 +251,7 @@ public interface MessageStore {
     void updateHaMasterAddress(final String newAddr);
 
     /**
-     * Return how much the slave falls behind.
+     * 返回多少slave落在后面
      *
      * @return number of bytes that slave falls behind.
      */

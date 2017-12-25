@@ -21,7 +21,7 @@ import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.remoting.common.RemotingUtil;
 
 /**
- * Client Common configuration
+ * 客户端通用配置
  */
 public class ClientConfig {
     public static final String SEND_MESSAGE_WITH_VIP_CHANNEL_PROPERTY = "com.rocketmq.sendMessageWithVIPChannel";
@@ -30,11 +30,11 @@ public class ClientConfig {
     private String instanceName = System.getProperty("rocketmq.client.name", "DEFAULT");
     private int clientCallbackExecutorThreads = Runtime.getRuntime().availableProcessors();
     /**
-     * Pulling topic information interval from the named server
+     * 从nameServer拉取topic信息的间隔时间
      */
     private int pollNameServerInterval = 1000 * 30;
     /**
-     * Heartbeat interval in microseconds with message broker
+     * 向broker发送心跳的间隔时间
      */
     private int heartbeatBrokerInterval = 1000 * 30;
     /**
@@ -47,6 +47,11 @@ public class ClientConfig {
 
     private boolean useTLS;
 
+    /**
+     * clientIp@instanceName@unitName
+     * 例如：127.0.0.1@423423
+     * @return
+     */
     public String buildMQClientId() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getClientIP());

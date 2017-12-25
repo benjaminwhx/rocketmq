@@ -21,11 +21,11 @@ import org.apache.rocketmq.common.annotation.ImportantField;
 import org.apache.rocketmq.store.ConsumeQueue;
 
 public class MessageStoreConfig {
-    //The root directory in which the log data is kept
+    // log数据存放的根目录 ~/store
     @ImportantField
     private String storePathRootDir = System.getProperty("user.home") + File.separator + "store";
 
-    //The directory in which the commitlog is kept
+    // commitlog的目录 ~/store/commitlog
     @ImportantField
     private String storePathCommitLog = System.getProperty("user.home") + File.separator + "store"
         + File.separator + "commitlog";
@@ -123,6 +123,9 @@ public class MessageStoreConfig {
     private int haSlaveFallbehindMax = 1024 * 1024 * 256;
     @ImportantField
     private BrokerRole brokerRole = BrokerRole.ASYNC_MASTER;
+    /**
+     * 刷新磁盘类型
+     */
     @ImportantField
     private FlushDiskType flushDiskType = FlushDiskType.ASYNC_FLUSH;
     private int syncFlushTimeout = 1000 * 5;
@@ -191,6 +194,10 @@ public class MessageStoreConfig {
         this.mapedFileSizeCommitLog = mapedFileSizeCommitLog;
     }
 
+    /**
+     * 获取消费队列对应的文件大小
+     * @return
+     */
     public int getMapedFileSizeConsumeQueue() {
 
         int factor = (int) Math.ceil(this.mapedFileSizeConsumeQueue / (ConsumeQueue.CQ_STORE_UNIT_SIZE * 1.0));

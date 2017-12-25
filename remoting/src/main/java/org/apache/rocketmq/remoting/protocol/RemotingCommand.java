@@ -69,12 +69,37 @@ public class RemotingCommand {
         }
     }
 
+    /**
+     * request：请求操作代码，请求接收方根据不同代码做不同的操作
+     * response：应答结果代码，0表示成功，非0表示各种失败代码
+     * {@link org.apache.rocketmq.common.protocol.RequestCode}
+     * {@link org.apache.rocketmq.common.protocol.ResponseCode}
+     */
     private int code;
     private LanguageCode language = LanguageCode.JAVA;
+    /**
+     * request：请求发起方程序版本
+     * response：应答接收方程序版本
+     */
     private int version = 0;
+    /**
+     * request：请求发起方在同一连接上不同的请求标识代码，多线程连接复用使用
+     * response：应答方不做修改，直接返回
+     */
     private int opaque = requestId.getAndIncrement();
+    /**
+     * 通信层的标志位
+     */
     private int flag = 0;
+    /**
+     * request：传输的自定义文本信息
+     * response：错误详细描述信息
+     */
     private String remark;
+    /**
+     * request：请求自定义字段
+     * response：应答自定义字段
+     */
     private HashMap<String, String> extFields;
     private transient CommandCustomHeader customHeader;
 

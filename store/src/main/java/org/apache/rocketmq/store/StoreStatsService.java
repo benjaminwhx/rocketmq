@@ -40,6 +40,9 @@ public class StoreStatsService extends ServiceThread {
 
     private static int printTPSInterval = 60 * 1;
 
+    /**
+     * 存储消息失败次数
+     */
     private final AtomicLong putMessageFailedTimes = new AtomicLong(0);
 
     private final Map<String, AtomicLong> putMessageTopicTimesTotal =
@@ -57,6 +60,9 @@ public class StoreStatsService extends ServiceThread {
     private final LinkedList<CallSnapshot> transferedMsgCountList = new LinkedList<CallSnapshot>();
     private volatile AtomicLong[] putMessageDistributeTime;
     private long messageStoreBootTimestamp = System.currentTimeMillis();
+    /**
+     * 存储消息的最大时间
+     */
     private volatile long putMessageEntireTimeMax = 0;
     private volatile long getMessageEntireTimeMax = 0;
     // for putMessageEntireTimeMax
@@ -135,6 +141,7 @@ public class StoreStatsService extends ServiceThread {
             times[12].incrementAndGet();
         }
 
+        // 消耗的时间 > putMessageEntireTimeMax，设置最大值到putMessageEntireTimeMax
         if (value > this.putMessageEntireTimeMax) {
             this.lockPut.lock();
             this.putMessageEntireTimeMax =

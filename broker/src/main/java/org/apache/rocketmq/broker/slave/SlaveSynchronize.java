@@ -28,6 +28,9 @@ import org.apache.rocketmq.store.config.StorePathConfigHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * broker 从节点同步类
+ */
 public class SlaveSynchronize {
     private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
     private final BrokerController brokerController;
@@ -45,6 +48,9 @@ public class SlaveSynchronize {
         this.masterAddr = masterAddr;
     }
 
+    /**
+     * 将MasterBroker上的路由信息缓存同步到本地缓存。
+     */
     public void syncAll() {
         this.syncTopicConfig();
         this.syncConsumerOffset();

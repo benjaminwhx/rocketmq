@@ -25,6 +25,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.rocketmq.client.common.ThreadLocalIndex;
 
 public class LatencyFaultToleranceImpl implements LatencyFaultTolerance<String> {
+    /**
+     * key: brokerName
+     * value: FaultItem
+     */
     private final ConcurrentHashMap<String, FaultItem> faultItemTable = new ConcurrentHashMap<String, FaultItem>(16);
 
     private final ThreadLocalIndex whichItemWorst = new ThreadLocalIndex();
@@ -72,10 +76,10 @@ public class LatencyFaultToleranceImpl implements LatencyFaultTolerance<String> 
         }
 
         if (!tmpList.isEmpty()) {
+            // 打乱 + 排序。TODO 疑问：应该只能二选一。猜测Collections.shuffle(tmpList)去掉。
             Collections.shuffle(tmpList);
-
             Collections.sort(tmpList);
-
+            // 选择顺序在前一半的对象
             final int half = tmpList.size() / 2;
             if (half <= 0) {
                 return tmpList.get(0).getName();
@@ -96,15 +100,30 @@ public class LatencyFaultToleranceImpl implements LatencyFaultTolerance<String> 
             '}';
     }
 
+    /**
+     * 可用性条目
+     */
     class FaultItem implements Comparable<FaultItem> {
         private final String name;
+        /**
+         * 延迟时间
+         */
         private volatile long currentLatency;
+        /**
+         * 可用的开始时间
+         */
         private volatile long startTimestamp;
 
         public FaultItem(final String name) {
             this.name = name;
         }
 
+        /**
+         * 比较对象
+         * 可用性 > 延迟 > 开始可用时间
+         * @param other
+         * @return 升序
+         */
         @Override
         public int compareTo(final FaultItem other) {
             if (this.isAvailable() != other.isAvailable()) {
@@ -130,6 +149,11 @@ public class LatencyFaultToleranceImpl implements LatencyFaultTolerance<String> 
             return 0;
         }
 
+        /**
+         * 是否有效，意思就是故障是否恢复了
+         * 如果当前时间已经过了可用的开始时间，返回true
+         * @return
+         */
         public boolean isAvailable() {
             return (System.currentTimeMillis() - startTimestamp) >= 0;
         }

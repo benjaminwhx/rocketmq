@@ -1017,6 +1017,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
         Map<String, SubscriptionData> subTable = this.getSubscriptionInner();
         if (subTable != null) {
             if (subTable.containsKey(topic)) {
+                // topicSubscribeInfoTable不包含主题 返回true
                 return !this.rebalanceImpl.topicSubscribeInfoTable.containsKey(topic);
             }
         }

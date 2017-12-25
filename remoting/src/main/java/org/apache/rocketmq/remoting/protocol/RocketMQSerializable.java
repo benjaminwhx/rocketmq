@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * nio ByteBuffer方式进行序列化
+ */
 public class RocketMQSerializable {
     private static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
 
@@ -73,6 +76,11 @@ public class RocketMQSerializable {
         return headerBuffer.array();
     }
 
+    /**
+     * 对map进行序列化 ByteBuffer.array()
+     * @param map
+     * @return
+     */
     public static byte[] mapSerialize(HashMap<String, String> map) {
         // keySize+key+valSize+val
         if (null == map || map.isEmpty())

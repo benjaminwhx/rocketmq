@@ -115,6 +115,13 @@ public class MixAll {
         return DLQ_GROUP_TOPIC_PREFIX + consumerGroup;
     }
 
+    /**
+     * 例如：isChange=true, brokerAddr传入127.0.0.1:10911
+     *      返回127.0.0.1:10909
+     * @param isChange
+     * @param brokerAddr
+     * @return
+     */
     public static String brokerVIPChannel(final boolean isChange, final String brokerAddr) {
         if (isChange) {
             String[] ipAndPort = brokerAddr.split(":");
@@ -231,6 +238,12 @@ public class MixAll {
         printObjectProperties(logger, object, false);
     }
 
+    /**
+     * log打印object的static的属性 key=value
+     * @param logger
+     * @param object
+     * @param onlyImportantField
+     */
     public static void printObjectProperties(final Logger logger, final Object object,
         final boolean onlyImportantField) {
         Field[] fields = object.getClass().getDeclaredFields();
@@ -314,6 +327,11 @@ public class MixAll {
         return properties;
     }
 
+    /**
+     * 设置p中key对应的value到object中
+     * @param p
+     * @param object
+     */
     public static void properties2Object(final Properties p, final Object object) {
         Method[] methods = object.getClass().getMethods();
         for (Method method : methods) {
@@ -323,6 +341,7 @@ public class MixAll {
                     String tmp = mn.substring(4);
                     String first = mn.substring(3, 4);
 
+                    // 字段名
                     String key = first.toLowerCase() + tmp;
                     String property = p.getProperty(key);
                     if (property != null) {

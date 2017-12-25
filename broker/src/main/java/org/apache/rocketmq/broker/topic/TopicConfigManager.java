@@ -45,6 +45,9 @@ public class TopicConfigManager extends ConfigManager {
     private static final long LOCK_TIMEOUT_MILLIS = 3000;
     private transient final Lock lockTopicConfigTable = new ReentrantLock();
 
+    /**
+     * 用于描述：分布在当前Broker上的各Topic分片的配置信息，如：包含的读/写Queue的数量；是否有读/写权限
+     */
     private final ConcurrentMap<String, TopicConfig> topicConfigTable =
         new ConcurrentHashMap<String, TopicConfig>(1024);
     private final DataVersion dataVersion = new DataVersion();
@@ -75,6 +78,7 @@ public class TopicConfigManager extends ConfigManager {
                     .getDefaultTopicQueueNums());
                 topicConfig.setWriteQueueNums(this.brokerController.getBrokerConfig()
                     .getDefaultTopicQueueNums());
+                // 设置权限 rwx
                 int perm = PermName.PERM_INHERIT | PermName.PERM_READ | PermName.PERM_WRITE;
                 topicConfig.setPerm(perm);
                 this.topicConfigTable.put(topicConfig.getTopicName(), topicConfig);
@@ -134,6 +138,11 @@ public class TopicConfigManager extends ConfigManager {
         return this.systemTopicList;
     }
 
+    /**
+     * topic不能是TBW102
+     * @param topic
+     * @return
+     */
     public boolean isTopicCanSendMessage(final String topic) {
         return !topic.equals(MixAll.DEFAULT_TOPIC);
     }
@@ -381,6 +390,10 @@ public class TopicConfigManager extends ConfigManager {
         return encode(false);
     }
 
+    /**
+     * ~/store/config/topics.json
+     * @return
+     */
     @Override
     public String configFilePath() {
         return BrokerPathConfigHelper.getTopicConfigPath(this.brokerController.getMessageStoreConfig()

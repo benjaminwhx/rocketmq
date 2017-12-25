@@ -292,6 +292,13 @@ public class UtilAll {
         return result;
     }
 
+    /**
+     * 压缩src
+     * @param src 要压缩的内容
+     * @param level 压缩级别
+     * @return
+     * @throws IOException
+     */
     public static byte[] compress(final byte[] src, final int level) throws IOException {
         byte[] result = src;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(src.length);

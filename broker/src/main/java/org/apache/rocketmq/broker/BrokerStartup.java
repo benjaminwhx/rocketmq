@@ -149,6 +149,9 @@ public class BrokerStartup {
                 }
             }
 
+            /**
+             * 判断brokerRole，master的brokerId设置为0，slave的brokerId一定要>0
+             */
             switch (messageStoreConfig.getBrokerRole()) {
                 case ASYNC_MASTER:
                 case SYNC_MASTER:
@@ -165,6 +168,7 @@ public class BrokerStartup {
                     break;
             }
 
+            // 10912
             messageStoreConfig.setHaListenPort(nettyServerConfig.getListenPort() + 1);
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             JoranConfigurator configurator = new JoranConfigurator();
@@ -172,6 +176,7 @@ public class BrokerStartup {
             lc.reset();
             configurator.doConfigure(brokerConfig.getRocketmqHome() + "/conf/logback_broker.xml");
 
+            // 打印全部配置信息
             if (commandLine.hasOption('p')) {
                 Logger console = LoggerFactory.getLogger(LoggerName.BROKER_CONSOLE_NAME);
                 MixAll.printObjectProperties(console, brokerConfig);
@@ -180,6 +185,7 @@ public class BrokerStartup {
                 MixAll.printObjectProperties(console, messageStoreConfig);
                 System.exit(0);
             } else if (commandLine.hasOption('m')) {
+                // 只打印有@ImportantField注解的属性信息
                 Logger console = LoggerFactory.getLogger(LoggerName.BROKER_CONSOLE_NAME);
                 MixAll.printObjectProperties(console, brokerConfig, true);
                 MixAll.printObjectProperties(console, nettyServerConfig, true);
@@ -208,6 +214,7 @@ public class BrokerStartup {
                 System.exit(-3);
             }
 
+            // 虚拟机结束前调用
             Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
                 private volatile boolean hasShutdown = false;
                 private AtomicInteger shutdownTimes = new AtomicInteger(0);
@@ -219,6 +226,7 @@ public class BrokerStartup {
                         if (!this.hasShutdown) {
                             this.hasShutdown = true;
                             long beginTime = System.currentTimeMillis();
+                            // broker controller shutdown
                             controller.shutdown();
                             long consumingTimeTotal = System.currentTimeMillis() - beginTime;
                             log.info("Shutdown hook over, consuming total time(ms): {}", consumingTimeTotal);

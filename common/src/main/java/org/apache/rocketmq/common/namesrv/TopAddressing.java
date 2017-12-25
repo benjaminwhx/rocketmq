@@ -64,6 +64,12 @@ public class TopAddressing {
         return fetchNSAddr(true, 3000);
     }
 
+    /**
+     *
+     * @param verbose 是否要冗余打日志，true为打日志
+     * @param timeoutMills
+     * @return
+     */
     public final String fetchNSAddr(boolean verbose, long timeoutMills) {
         String url = this.wsAddr;
         try {

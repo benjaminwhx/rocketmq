@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Consumer filter data manager.Just manage the consumers use expression filter.
+ * 消费过滤数据管理，仅仅使用表达式来过滤管理消费者
  */
 public class ConsumerFilterManager extends ConfigManager {
 
@@ -215,6 +215,10 @@ public class ConsumerFilterManager extends ConfigManager {
         return encode(false);
     }
 
+    /**
+     * ~/store/config/consumerFilter.json
+     * @return
+     */
     @Override
     public String configFilePath() {
         if (this.brokerController != null) {

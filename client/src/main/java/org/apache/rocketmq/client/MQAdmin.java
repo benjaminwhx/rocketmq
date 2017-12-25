@@ -23,7 +23,7 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
 /**
- * Base interface for MQ management
+ * MQ管理的基础接口
  */
 public interface MQAdmin {
     /**
@@ -91,7 +91,7 @@ public interface MQAdmin {
         InterruptedException, MQClientException;
 
     /**
-     * Query messages
+     * 查询消息
      *
      * @param topic message topic
      * @param key message key index word

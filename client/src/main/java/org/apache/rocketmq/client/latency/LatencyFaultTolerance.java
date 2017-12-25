@@ -17,12 +17,35 @@
 
 package org.apache.rocketmq.client.latency;
 
+/**
+ * 延迟故障容错
+ * @param <T>
+ */
 public interface LatencyFaultTolerance<T> {
+    /**
+     * 更新对应的延迟和不可用时长
+     * @param name brokerName
+     * @param currentLatency 延迟时间
+     * @param notAvailableDuration 不可用时间
+     */
     void updateFaultItem(final T name, final long currentLatency, final long notAvailableDuration);
 
+    /**
+     * 对象是否可用
+     * @param name 条目名称
+     * @return
+     */
     boolean isAvailable(final T name);
 
+    /**
+     * 移除对象
+     * @param name
+     */
     void remove(final T name);
 
+    /**
+     * 随机挑选一个 选最低延迟的broker,根据FaultItem的可用性和开始时间选择
+     * @return
+     */
     T pickOneAtLeast();
 }
