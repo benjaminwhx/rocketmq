@@ -23,6 +23,19 @@ import org.apache.rocketmq.common.message.MessageQueue;
  */
 public class ConsumeOrderlyContext {
     private final MessageQueue messageQueue;
+    /**
+     * 当SUSPEND_CURRENT_QUEUE_A_MOMENT时，autoCommit设置为true或者false没有区别，本质跟消费相反，把消息从msgTreeMapTemp转移回msgTreeMap，等待下次消费。
+
+     当SUCCESS时，autoCommit设置为true时比设置为false多做了2个动作
+     consumeRequest.getProcessQueue().commit() 和 this.defaultMQPushConsumerImpl.getOffsetStore().updateOffset(consumeRequest.getMessageQueue(), commitOffset, false);
+     ProcessQueue.commit() ：
+     本质是删除msgTreeMapTemp里的消息，msgTreeMapTemp里的消息在上面消费时从msgTreeMap转移过来的。
+     this.defaultMQPushConsumerImpl.getOffsetStore().updateOffset() ：本质是把拉消息的偏移量更新到本地，然后定时更新到broker。
+
+     那么少了这2个动作会怎么样呢，随着消息的消费进行，msgTreeMapTemp里的消息堆积越来越多，消费消息的偏移量一直没有更新到broker导致consumer每次重新启动后都要从头开始重复消费。
+     就算更新了offset到broker，那么msgTreeMapTemp里的消息堆积呢？不知道这算不算bug。
+     所以，还是把autoCommit设置为true吧。
+     */
     private boolean autoCommit = true;
     private long suspendCurrentQueueTimeMillis = -1;
 

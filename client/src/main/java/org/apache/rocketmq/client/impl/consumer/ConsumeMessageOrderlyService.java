@@ -261,6 +261,7 @@ public class ConsumeMessageOrderlyService implements ConsumeMessageService {
     ) {
         boolean continueConsume = true;
         long commitOffset = -1L;
+        // 详见ConsumeOrderlyContext autoCommit变量描述
         if (context.isAutoCommit()) {
             switch (status) {
                 case COMMIT:
@@ -268,13 +269,17 @@ public class ConsumeMessageOrderlyService implements ConsumeMessageService {
                     log.warn("the message queue consume result is illegal, we think you want to ack these message {}",
                         consumeRequest.getMessageQueue());
                 case SUCCESS:
+                    // 提交消息已消费成功到消息处理队列
                     commitOffset = consumeRequest.getProcessQueue().commit();
+                    // 统计
                     this.getConsumerStatsManager().incConsumeOKTPS(consumerGroup, consumeRequest.getMessageQueue().getTopic(), msgs.size());
                     break;
                 case SUSPEND_CURRENT_QUEUE_A_MOMENT:
                     this.getConsumerStatsManager().incConsumeFailedTPS(consumerGroup, consumeRequest.getMessageQueue().getTopic(), msgs.size());
-                    if (checkReconsumeTimes(msgs)) {
+                    if (checkReconsumeTimes(msgs)) {    // 计算是否暂时挂起（暂停）消费N毫秒，默认：10ms
+                        // 设置消息重新消费
                         consumeRequest.getProcessQueue().makeMessageToCosumeAgain(msgs);
+                        // 提交延迟消费请求
                         this.submitConsumeRequestLater(
                             consumeRequest.getProcessQueue(),
                             consumeRequest.getMessageQueue(),
@@ -293,9 +298,11 @@ public class ConsumeMessageOrderlyService implements ConsumeMessageService {
                     this.getConsumerStatsManager().incConsumeOKTPS(consumerGroup, consumeRequest.getMessageQueue().getTopic(), msgs.size());
                     break;
                 case COMMIT:
+                    // 提交消息已消费成功到消息处理队列
                     commitOffset = consumeRequest.getProcessQueue().commit();
                     break;
                 case ROLLBACK:
+                    // 设置消息重新消费
                     consumeRequest.getProcessQueue().rollback();
                     this.submitConsumeRequestLater(
                         consumeRequest.getProcessQueue(),
@@ -319,6 +326,7 @@ public class ConsumeMessageOrderlyService implements ConsumeMessageService {
             }
         }
 
+        // 消息处理队列未dropped，提交有效消费进度
         if (commitOffset >= 0 && !consumeRequest.getProcessQueue().isDropped()) {
             this.defaultMQPushConsumerImpl.getOffsetStore().updateOffset(consumeRequest.getMessageQueue(), commitOffset, false);
         }

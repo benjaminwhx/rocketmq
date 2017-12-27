@@ -38,7 +38,7 @@ public class Producer {
 
         producer.start();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             try {
                 Message msg = new Message("TopicProducer", "TagA",
                     ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET)

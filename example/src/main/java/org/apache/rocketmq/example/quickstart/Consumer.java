@@ -60,7 +60,7 @@ public class Consumer {
                 ConsumeConcurrentlyContext context) {
                 System.out.println("msgs size=" + msgs.size());
                 System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msgs);
-                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
             }
         });
 
