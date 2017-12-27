@@ -341,6 +341,8 @@ public class BrokerController {
 
             /**
              * 获取namesrv的地址并更新
+             * 1、配置nameSrv地址
+             * 2、定时从nameServer获取
              */
             if (this.brokerConfig.getNamesrvAddr() != null) {
                 this.brokerOuterAPI.updateNameServerAddressList(this.brokerConfig.getNamesrvAddr());
@@ -359,6 +361,9 @@ public class BrokerController {
                 }, 1000 * 10, 1000 * 60 * 2, TimeUnit.MILLISECONDS);
             }
 
+            /**
+             * SLAVE节点 并且 存在高可用Master地址，更新消息存储里面的地址
+             */
             if (BrokerRole.SLAVE == this.messageStoreConfig.getBrokerRole()) {
                 if (this.messageStoreConfig.getHaMasterAddress() != null && this.messageStoreConfig.getHaMasterAddress().length() >= 6) {
                     this.messageStore.updateHaMasterAddress(this.messageStoreConfig.getHaMasterAddress());

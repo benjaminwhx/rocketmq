@@ -791,6 +791,9 @@ public class RouteInfoManager {
     }
 }
 
+/**
+ * broker存活信息
+ */
 class BrokerLiveInfo {
     private long lastUpdateTimestamp;
     private DataVersion dataVersion;

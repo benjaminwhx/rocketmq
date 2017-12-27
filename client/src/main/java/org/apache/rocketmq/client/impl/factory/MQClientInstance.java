@@ -895,6 +895,7 @@ public class MQClientInstance {
                         this.datagramSocket.close();
                         this.datagramSocket = null;
                     }
+                    // 删除客户端实例
                     MQClientManager.getInstance().removeClientFactory(this.clientId);
                     log.info("the client factory [{}] shutdown OK", this.clientId);
                     break;
@@ -925,6 +926,11 @@ public class MQClientInstance {
         this.unregisterClientWithLock(null, group);
     }
 
+    /**
+     * 注销客户端（Producer 或者 Consumer）
+     * @param producerGroup
+     * @param consumerGroup
+     */
     private void unregisterClientWithLock(final String producerGroup, final String consumerGroup) {
         try {
             if (this.lockHeartbeat.tryLock(LOCK_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)) {

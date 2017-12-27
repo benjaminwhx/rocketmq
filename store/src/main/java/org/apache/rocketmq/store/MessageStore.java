@@ -244,7 +244,7 @@ public interface MessageStore {
         final long end);
 
     /**
-     * Update HA master address.
+     * 更新高可用MASTER地址
      *
      * @param newAddr new address.
      */

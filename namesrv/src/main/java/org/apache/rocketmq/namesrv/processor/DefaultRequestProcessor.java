@@ -73,13 +73,17 @@ public class DefaultRequestProcessor implements NettyRequestProcessor {
         }
 
         switch (request.getCode()) {
+            // 放入key value配置
             case RequestCode.PUT_KV_CONFIG:
                 return this.putKVConfig(ctx, request);
+            // 获取key value配置
             case RequestCode.GET_KV_CONFIG:
                 return this.getKVConfig(ctx, request);
+            // 删除key value配置
             case RequestCode.DELETE_KV_CONFIG:
                 return this.deleteKVConfig(ctx, request);
-            case RequestCode.REGISTER_BROKER:   // 注册broker（broker start后调用）
+            // 注册broker（broker start后调用）
+            case RequestCode.REGISTER_BROKER:
                 Version brokerVersion = MQVersion.value2Version(request.getVersion());
                 if (brokerVersion.ordinal() >= MQVersion.Version.V3_0_11.ordinal()) {
                     return this.registerBrokerWithFilterServer(ctx, request);
@@ -182,6 +186,13 @@ public class DefaultRequestProcessor implements NettyRequestProcessor {
         return response;
     }
 
+    /**
+     * 注册broker和filterServer
+     * @param ctx
+     * @param request
+     * @return
+     * @throws RemotingCommandException
+     */
     public RemotingCommand registerBrokerWithFilterServer(ChannelHandlerContext ctx, RemotingCommand request)
         throws RemotingCommandException {
         final RemotingCommand response = RemotingCommand.createResponseCommand(RegisterBrokerResponseHeader.class);

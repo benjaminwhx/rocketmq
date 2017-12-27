@@ -47,8 +47,8 @@ public class NamesrvStartup {
     public static Properties properties = null;
     public static CommandLine commandLine = null;
 
+    // -c /Users/benjamin/jd_project/rocketmq/config/namesrc.conf
     public static void main(String[] args) {
-        System.setProperty("ROCKETMQ_HOME", "/Users/benjamin/jd_project/rocketmq/distribution/target/apache-rocketmq");
         main0(args);
     }
 

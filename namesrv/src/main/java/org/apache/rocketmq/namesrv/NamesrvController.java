@@ -80,6 +80,7 @@ public class NamesrvController {
         this.remotingExecutor =
             Executors.newFixedThreadPool(nettyServerConfig.getServerWorkerThreads(), new ThreadFactoryImpl("RemotingExecutorThread_"));
 
+        // 注册默认处理器
         this.registerProcessor();
 
         // 5秒后每10秒一次，扫描不活跃的broker
@@ -103,7 +104,7 @@ public class NamesrvController {
     }
 
     /**
-     * 注册处理器
+     * 注册默认处理器
      */
     private void registerProcessor() {
         if (namesrvConfig.isClusterTest()) {

@@ -17,7 +17,13 @@
 package org.apache.rocketmq.store.config;
 
 public enum BrokerRole {
+    /**
+     * Producer 发送消息时，不需要等待 Slave节点 存储完毕后再返回发送结果
+     */
     ASYNC_MASTER,
+    /**
+     * Producer 发送消息时，等待 Slave节点 存储完毕后再返回发送结果
+     */
     SYNC_MASTER,
     SLAVE;
 }

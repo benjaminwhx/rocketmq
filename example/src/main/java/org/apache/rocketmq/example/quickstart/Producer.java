@@ -31,7 +31,7 @@ public class Producer {
         /*
          * 通过组名初始化Producer
          */
-        DefaultMQProducer producer = new DefaultMQProducer("group1");
+        DefaultMQProducer producer = new DefaultMQProducer("group2");
 
         producer.setNamesrvAddr("localhost:9876");
 //        producer.setNamesrvAddr("name-server1-ip:9876;name-server2-ip:9876");

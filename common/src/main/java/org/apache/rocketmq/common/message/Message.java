@@ -53,6 +53,7 @@ public class Message implements Serializable {
         this.flag = flag;
         this.body = body;
 
+        // tags过滤消息使用
         if (tags != null && tags.length() > 0)
             this.setTags(tags);
 

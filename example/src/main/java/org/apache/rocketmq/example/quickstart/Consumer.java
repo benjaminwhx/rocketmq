@@ -42,7 +42,7 @@ public class Consumer {
 
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
 
-        consumer.subscribe("TopicProducer", "*");
+        consumer.subscribe("TopicProducer", "TagA");
 
         /*
          * 注册回调函数，一旦有消息从brokers获取到就触发
@@ -58,6 +58,7 @@ public class Consumer {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,
                 ConsumeConcurrentlyContext context) {
+                System.out.println("msgs size=" + msgs.size());
                 System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msgs);
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }

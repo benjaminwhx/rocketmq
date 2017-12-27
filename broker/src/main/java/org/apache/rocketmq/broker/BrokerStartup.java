@@ -49,6 +49,7 @@ public class BrokerStartup {
     public static String configFile = null;
     public static Logger log;
 
+    // -c /Users/benjamin/jd_project/rocketmq/config/broker.conf
     public static void main(String[] args) {
         start(createBrokerController(args));
     }

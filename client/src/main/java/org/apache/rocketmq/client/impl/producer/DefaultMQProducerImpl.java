@@ -213,11 +213,16 @@ public class DefaultMQProducerImpl implements MQProducerInner {
         this.shutdown(true);
     }
 
+    /**
+     * shutdown
+     * @param shutdownFactory 是否要关闭客户端实例
+     */
     public void shutdown(final boolean shutdownFactory) {
         switch (this.serviceState) {
             case CREATE_JUST:
                 break;
             case RUNNING:
+                // 如果服务在运行，注销broker中的producerGroup
                 this.mQClientFactory.unregisterProducer(this.defaultMQProducer.getProducerGroup());
                 if (shutdownFactory) {
                     this.mQClientFactory.shutdown();

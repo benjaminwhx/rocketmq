@@ -27,6 +27,9 @@ import org.apache.rocketmq.common.ServiceThread;
 import org.apache.rocketmq.common.utils.ThreadUtils;
 import org.slf4j.Logger;
 
+/**
+ * PUSH模式下拉取消息服务的线程
+ */
 public class PullMessageService extends ServiceThread {
     private final Logger log = ClientLogger.getLog();
     private final LinkedBlockingQueue<PullRequest> pullRequestQueue = new LinkedBlockingQueue<PullRequest>();
